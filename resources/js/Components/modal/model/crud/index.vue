@@ -2,7 +2,9 @@
 import useProduct from "@/composables/products";
 import useToggleModal from "@/API/toggleModel";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import { onMounted, computed } from "vue";
+import { onMounted, computed, defineEmits } from "vue";
+
+const emit = defineEmits();
 
 const props = defineProps({
     id: {
@@ -31,6 +33,8 @@ function onToggleModal() {
 const submitProduct = async () => {
     if (!props.id) await storeProduct({ ...form });
     if (props.id) await updateProduct(props.id);
+    onToggleModal();
+    emit("get-data");
 };
 </script>
 <template>

@@ -2,6 +2,7 @@
 import BreezeAuthenticatedLayout from "@/Layouts/Authenticated.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import ModalProduct from "@/Components/modal/model/crud/index.vue";
+import Alerts from "@/Components/Alerts.vue";
 import useProducts from "@/composables/products";
 import useToggleModal from "@/API/toggleModel";
 import { onMounted, reactive, ref, watch } from "vue";
@@ -55,6 +56,8 @@ const deleteProduct = async (id) => {
                 Models
             </h2>
         </template>
+
+        <alerts status="Success" message="dsaklhjdhajdjh" />
 
         <div class="py-11">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -176,7 +179,11 @@ const deleteProduct = async (id) => {
                 </div>
             </div>
         </div>
-        <modal-product v-if="hasRole('ModalAdd')" />
-        <modal-product :id="edited" v-if="hasRole('ModalEdit')" />
+        <modal-product @get-data="getProducts" v-if="hasRole('ModalAdd')" />
+        <modal-product
+            @get-data="getProducts"
+            :id="edited"
+            v-if="hasRole('ModalEdit')"
+        />
     </BreezeAuthenticatedLayout>
 </template>

@@ -28,7 +28,6 @@ export default function useProducts() {
         errors.value = "";
         try {
             await axios.post("/api/products", data);
-            router.go();
         } catch (e) {
             if (e.response.status === 422) {
                 for (const key in e.response.data.errors) {
@@ -42,7 +41,6 @@ export default function useProducts() {
         errors.value = "";
         try {
             await axios.patch(`/api/products/${id}`, product.value);
-            router.go();
         } catch (e) {
             if (e.response.status === 422) {
                 for (const key in e.response.data.errors) {

@@ -54,7 +54,7 @@ defineProps({
         </div>
 
         <div class="flex justify-center">
-            <div class="font-mono text-white text-center">
+            <div class="font-mono dark:text-white text-center">
                 <div class="font-bold text-xl">
                     Selamat Datang Di System Perencanaan Produksi.
                 </div>
