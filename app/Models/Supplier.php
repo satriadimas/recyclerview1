@@ -10,5 +10,5 @@ class Supplier extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['name', 'address', 'contact'];
+    protected $fillable = ['name', 'address', 'contact', 'currency'];
 }

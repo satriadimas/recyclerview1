@@ -10,5 +10,5 @@ class SupplierGood extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['supplier_id', 'code', 'name', 'price', 'currency', 'unit'];
+    protected $fillable = ['supplier_id', 'code', 'name', 'price', 'unit'];
 }

@@ -55,12 +55,8 @@ defineProps({
 
         <div class="flex justify-center">
             <div class="font-mono dark:text-white text-center">
-                <div class="font-bold text-xl">
-                    Selamat Datang Di System Perencanaan Produksi.
-                </div>
-                <div class="font-bold text-base mt-1">
-                    Created by Dicky Ari Juandi
-                </div>
+                <div class="font-bold text-9xl">E-MRP</div>
+                <div class="font-bold text-7xl">PT. Shindengen Indonesia.</div>
             </div>
         </div>
     </div>

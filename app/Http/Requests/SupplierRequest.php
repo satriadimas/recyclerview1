@@ -27,6 +27,7 @@ class SupplierRequest extends FormRequest
             'name' => ['required', 'string'],
             'address' => ['required', 'string'],
             'contact' => ['required', 'string'],
+            'currency' => ['required', 'string'],
         ];
     }
 }

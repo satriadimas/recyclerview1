@@ -11,9 +11,20 @@ export default function useProducts() {
         data.value = response.data.data;
     };
 
+    const storeBoms = async (data) => {
+        errors.value = "";
+        await axios.post("/api/bom", data);
+    };
+
+    const destroyBom = async (id) => {
+        await axios.delete(`/api/bom/${id}`);
+    };
+
     return {
         errors,
         data,
         getBomDetail,
+        storeBoms,
+        destroyBom,
     };
 }

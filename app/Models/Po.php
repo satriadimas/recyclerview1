@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Po extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+
+    protected $fillable = ['code', 'terms'];
 }

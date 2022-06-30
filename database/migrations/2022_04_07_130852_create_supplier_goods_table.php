@@ -19,7 +19,6 @@ return new class extends Migration
             $table->string('code', 50);
             $table->string('name', 100);
             $table->decimal('price', 9, 2);
-            $table->enum('currency', ['IDR', 'USD', 'JPY']);
             $table->enum('unit', ['pcs', 'kg', 'can']);
         });
     }

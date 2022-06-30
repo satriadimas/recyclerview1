@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class BomRequest extends FormRequest
+class InOutRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,10 @@ class BomRequest extends FormRequest
     public function rules()
     {
         return [
-            'id_product' => ['required', 'numeric'],
-            'id_supplier_good' => ['required', 'numeric'],
+            'id_materials' => ['required', 'numeric'],
             'qty' => ['required', 'numeric'],
+            'date' => ['required', 'date'],
+            'remark' => ['required', 'string'],
         ];
     }
 }

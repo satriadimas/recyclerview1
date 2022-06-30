@@ -1,13 +1,25 @@
 import { ref } from "vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
 
 export default function useSuppliers() {
     const supplierGood = ref([]);
     const supplierGoods = ref([]);
 
     const errors = ref("");
-    const router = useRouter();
+
+    const getAllSupplierGoods = async (search) => {
+        let response = await axios.get(
+            `/api/supplier-goods?search=${search ? search : ""}`
+        );
+        return response.data.data;
+    };
+
+    const optionSupplierGoods = async (id, search) => {
+        let response = await axios.get(
+            `/api/material/options?id=${id}&search=${search ? search : ""}`
+        );
+        return response.data.data;
+    };
 
     const getSupplierGoods = async (supplier_id) => {
         let response = await axios.get(
@@ -30,30 +42,12 @@ export default function useSuppliers() {
 
     const storeSupplierGood = async (data) => {
         errors.value = "";
-        try {
-            await axios.post("/api/supplier-goods", data);
-            router.go();
-        } catch (e) {
-            if (e.response.status === 422) {
-                for (const key in e.response.data.errors) {
-                    errors.value += e.response.data.errors[key][0] + " ";
-                }
-            }
-        }
+        await axios.post("/api/supplier-goods", data);
     };
 
     const updateSupplierGood = async (id) => {
         errors.value = "";
-        try {
-            await axios.patch(`/api/supplier-goods/${id}`, supplierGood.value);
-            router.go();
-        } catch (e) {
-            if (e.response.status === 422) {
-                for (const key in e.response.data.errors) {
-                    errors.value += e.response.data.errors[key][0] + " ";
-                }
-            }
-        }
+        await axios.patch(`/api/supplier-goods/${id}`, supplierGood.value);
     };
 
     const destroySupplierGood = async (id) => {
@@ -64,6 +58,8 @@ export default function useSuppliers() {
         errors,
         supplierGood,
         supplierGoods,
+        getAllSupplierGoods,
+        optionSupplierGoods,
         getSupplierGood,
         getSupplierGoods,
         searchSupplierGood,

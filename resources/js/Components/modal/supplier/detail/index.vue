@@ -2,13 +2,21 @@
 import useSupplierGood from "@/composables/suppliers/detail";
 import useToggleModal from "@/API/toggleModel";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import { onMounted, computed, watch } from "vue";
+import { onMounted, computed, watch, defineEmits } from "vue";
+
+const emit = defineEmits();
 
 const props = defineProps({
     id: {
         default: null,
     },
+    currency: {
+        default: null,
+    },
     supplier_id: {
+        default: null,
+    },
+    supplier_name: {
         default: null,
     },
 });
@@ -25,11 +33,21 @@ const { state, toggleModel } = useToggleModal();
 const title = computed(() => (props.id ? "Edit Barang" : "Add Barang"));
 const button = computed(() => (props.id ? "Update" : "Create"));
 
+function uuid() {
+    const name = props.supplier_name.split(" ");
+    const initial = `${name[0].charAt(0)}${name[1] ? name[1].charAt(0) : ""}${
+        name[2] ? name[2].charAt(0) : ""
+    }`;
+    return `${initial}-xxxx-xxxx`.replace(/[xy]/g, function (c) {
+        var r = (Math.random() * 16) | 0,
+            v = c == "x" ? r : (r & 0x3) | 0x8;
+        return v.toString(16);
+    });
+}
+
 const form = useForm({
+    code: uuid(),
     supplier_id: props.supplier_id,
-    price: null,
-    currency: "IDR",
-    unit: "pcs",
 });
 
 if (props.id) {
@@ -42,21 +60,18 @@ function onToggleModal() {
 }
 
 const submitSupplierGood = async () => {
-    if (!props.id) await storeSupplierGood({ ...form });
-    if (props.id) await updateSupplierGood(props.id);
-};
+    console.log(form.price);
+    onToggleModal();
+    try {
+        if (!props.id) await storeSupplierGood({ ...form });
+        if (props.id) await updateSupplierGood(props.id);
 
-watch(form, async (form) => {
-    let type;
-    if (form.currency === "IDR") type = "id-ID";
-    if (form.currency === "USD") type = "en-US";
-    if (form.currency === "JPY") type = "ja-JP";
-    let format = new Intl.NumberFormat(type, {
-        style: "currency",
-        currency: form.currency,
-    }).format(form.price);
-    console.log(format);
-});
+        emit("status-data", !props.id, true);
+    } catch (error) {
+        console.log(error);
+        emit("status-data", !props.id, false);
+    }
+};
 </script>
 <template>
     <div
@@ -132,6 +147,7 @@ watch(form, async (form) => {
                                 type="text"
                                 name="name"
                                 id="name"
+                                placeholder="Isi nama barang"
                                 class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                 v-model="form.name"
                             />
@@ -158,6 +174,7 @@ watch(form, async (form) => {
                                     type="number"
                                     name="price"
                                     id="price"
+                                    placeholder="Isi harga"
                                     class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                     v-model="form.price"
                                 />
@@ -171,28 +188,12 @@ watch(form, async (form) => {
                                 >currency</label
                             >
                             <div class="mt-1">
-                                <select
-                                    v-if="props.id"
-                                    name="currency"
-                                    id="currency"
+                                <input
+                                    type="text"
+                                    disabled
                                     class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    v-model="supplierGood.currency"
-                                >
-                                    <option value="IDR">IDR</option>
-                                    <option value="USD">USD</option>
-                                    <option value="JPY">JPY</option>
-                                </select>
-                                <select
-                                    v-else
-                                    name="currency"
-                                    id="currency"
-                                    class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
-                                    v-model="form.currency"
-                                >
-                                    <option value="IDR">IDR</option>
-                                    <option value="USD">USD</option>
-                                    <option value="JPY">JPY</option>
-                                </select>
+                                    :value="props.currency"
+                                />
                             </div>
                         </div>
                     </div>
@@ -229,12 +230,14 @@ watch(form, async (form) => {
                     </div>
                 </div>
 
-                <button
-                    type="submit"
-                    class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent ring-gray-300 transition duration-150 ease-in-out hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring disabled:opacity-25"
-                >
-                    {{ button }}
-                </button>
+                <div class="flex justify-end">
+                    <button
+                        type="submit"
+                        class="inline-flex items-center px-4 py-2 text-xs font-semibold tracking-widest text-white uppercase bg-gray-800 rounded-md border border-transparent ring-gray-300 transition duration-150 ease-in-out hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring disabled:opacity-25"
+                    >
+                        {{ button }}
+                    </button>
+                </div>
             </form>
         </div>
     </div>

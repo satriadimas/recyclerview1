@@ -28,7 +28,6 @@ class SupplierGoodRequest extends FormRequest
             'code' => ['required', 'string'],
             'name' => ['required', 'string'],
             'price' => ['required', 'numeric'],
-            'currency' => ['required', 'string'],
             'unit' => ['required', 'string'],
         ];
     }

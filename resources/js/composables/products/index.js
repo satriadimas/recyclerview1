@@ -14,6 +14,13 @@ export default function useProducts() {
         products.value = response.data.data;
     };
 
+    const getProductOptions = async (search) => {
+        let response = await axios.get(
+            `/api/product/options?search=${search ? search : ""}`
+        );
+        return response.data;
+    };
+
     const getProduct = async (id) => {
         let response = await axios.get(`/api/products/${id}`);
         product.value = response.data.data;
@@ -26,28 +33,12 @@ export default function useProducts() {
 
     const storeProduct = async (data) => {
         errors.value = "";
-        try {
-            await axios.post("/api/products", data);
-        } catch (e) {
-            if (e.response.status === 422) {
-                for (const key in e.response.data.errors) {
-                    errors.value += e.response.data.errors[key][0] + " ";
-                }
-            }
-        }
+        await axios.post("/api/products", data);
     };
 
     const updateProduct = async (id) => {
         errors.value = "";
-        try {
-            await axios.patch(`/api/products/${id}`, product.value);
-        } catch (e) {
-            if (e.response.status === 422) {
-                for (const key in e.response.data.errors) {
-                    errors.value += e.response.data.errors[key][0] + " ";
-                }
-            }
-        }
+        await axios.patch(`/api/products/${id}`, product.value);
     };
 
     const destroyProduct = async (id) => {
@@ -64,5 +55,6 @@ export default function useProducts() {
         storeProduct,
         updateProduct,
         destroyProduct,
+        getProductOptions,
     };
 }

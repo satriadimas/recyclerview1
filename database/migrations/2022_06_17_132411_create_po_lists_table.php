@@ -13,16 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pos', function (Blueprint $table) {
+        Schema::create('po_lists', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_production')->index();
-            $table->integer('id_bom')->index();
+            $table->integer('id_po')->index();
+            $table->integer('id_supplier_good')->index();
             $table->integer('qty');
-            $table->integer('oustanding');
-            $table->integer('actual');
-            $table->integer('stock');
-            $table->integer('standar_stock');
-            $table->timestamp('date');
+            $table->date('delivery_date');
         });
     }
 
@@ -33,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('pos');
+        Schema::dropIfExists('po_lists');
     }
 };

@@ -31,10 +31,26 @@ function onToggleModal() {
 }
 
 const submitProduct = async () => {
-    if (!props.id) await storeProduct({ ...form });
-    if (props.id) await updateProduct(props.id);
     onToggleModal();
-    emit("get-data");
+    if (!props.id) {
+        try {
+            await storeProduct({ ...form });
+            emit("status-data", true, true);
+        } catch (error) {
+            console.log(error);
+            emit("status-data", true, false);
+        }
+    }
+
+    if (props.id) {
+        try {
+            await updateProduct(props.id);
+            emit("status-data", false, true);
+        } catch (error) {
+            console.log(error);
+            emit("status-data", false, false);
+        }
+    }
 };
 </script>
 <template>

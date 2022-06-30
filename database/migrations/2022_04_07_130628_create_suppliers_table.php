@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('name', 100);
             $table->text('address');
             $table->string('contact', 15);
+            $table->enum('currency', ['IDR', 'USD', 'JPY']);
         });
     }
 

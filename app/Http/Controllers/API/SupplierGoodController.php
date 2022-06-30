@@ -17,12 +17,22 @@ class SupplierGoodController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->search) return ArrayResource::collection(SupplierGood::where("supplier_id", $request->supplier_id)->where(function ($query) use ($request) {
+        if (!$request->supplier_id) return ArrayResource::collection(SupplierGood::select("id as value", "name as label")->where("name", 'like', '%' . $request->search . '%')->get());
+        if ($request->search) return ArrayResource::collection(SupplierGood::select("supplier_goods.id", "code", "supplier_goods.name", "price", "currency", "unit")
+            ->join('suppliers', 'suppliers.id', '=', 'supplier_goods.supplier_id')->where("supplier_id", $request->supplier_id)->where(function ($query) use ($request) {
             $query->orWhere("code", 'like', '%' . $request->search . '%')
-                    ->orWhere("name", 'like', '%' . $request->search . '%')
+                    ->orWhere("supplier_goods.name", 'like', '%' . $request->search . '%')
+                    ->orWhere("unit", 'like', '%' . $request->search . '%')
                     ->orWhere("price", 'like', '%' . $request->search . '%');
-        })->paginate(8));
-        if (!$request->search) return ArrayResource::collection(SupplierGood::where("supplier_id", $request->supplier_id)->paginate(8));
+        })->paginate(12));
+        if (!$request->search) return ArrayResource::collection(SupplierGood::select("supplier_goods.id", "code", "supplier_goods.name", "price", "currency", "unit")
+            ->join('suppliers', 'suppliers.id', '=', 'supplier_goods.supplier_id')->where("supplier_id", $request->supplier_id)->paginate(12));
+    }
+
+    public function materialOptions(Request $request)
+    {
+        if ($request->id) return ArrayResource::collection(SupplierGood::select("id as value", "name as label")->where("name", 'like', '%' . $request->search . '%')->where("supplier_id", $request->id)->get());
+        return [];
     }
 
     /**

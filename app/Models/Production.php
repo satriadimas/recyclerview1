@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Production extends Model
 {
     use HasFactory;
+    public $timestamps = false;
+
+    protected $fillable = ['id_product', 'qty', 'date'];
 }

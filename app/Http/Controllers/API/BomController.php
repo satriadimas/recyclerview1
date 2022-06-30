@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BomRequest;
 use App\Http\Resources\ArrayResource;
 use Illuminate\Http\Request;
 use App\Models\Bom;
@@ -13,32 +12,22 @@ use App\Models\SupplierGood;
 
 class BomController extends Controller
 {
-    public function index(Request $request)
+    public function store(Request $request)
     {
-        dd($request);
-        if ($request->search) return ArrayResource::collection(Bom::where("name", 'like', '%' . $request->search . '%')->paginate(8));
-        if (!$request->search) return ArrayResource::collection(Bom::paginate(8));
-    }
+        $id_product = $request->id_product;
+        $id_supplier_good = $request->id_supplier_good;
+        $qty = $request->qty;
 
-    public function store(BomRequest $request)
-    {
-        dd($request);
-        $bom = Bom::create($request->validated());
+        
+        $data = [];
+        
+        foreach ($id_supplier_good as $key => $value) {
+            array_push($data, ["id_product"=>$id_product, "id_supplier_good"=>$value, "qty"=>$qty] );
+        }
+        
+        $bom = Bom::insert($data);
 
-        return new ArrayResource($bom);
-    }
-
-    public function show(Bom $bom)
-    {
-        dd($bom);
-        return new ArrayResource($bom);
-    }
-
-    public function update(BomRequest $request, Bom $bom)
-    {
-        $bom->update($request->validated());
-
-        return new ArrayResource($bom);
+        return response()->json(['data' => $data], 200);
     }
 
     public function destroy(Bom $bom)
@@ -54,11 +43,11 @@ class BomController extends Controller
                         ->join('suppliers', 'suppliers.id', '=', 'supplier_goods.supplier_id')
                         ->orderBy('product_name')
                         ->where('products.id', $id)
-                        ->get(['products.name as product_name', 'suppliers.name as supplier_name', 'supplier_goods.name as supplier_product', 'boms.qty']);
-
+                        ->get(['boms.id', 'products.name as product_name', 'suppliers.name as supplier_name', 'supplier_goods.name as supplier_product', 'boms.qty']);
         $data = [];
         foreach ($datas as $key => $value) {
             $data["product_name"] = $value["product_name"];
+            $data["suppliers"][$key]["id"] = $value["id"];
             $data["suppliers"][$key]["name"] = $value["supplier_name"];
             $data["suppliers"][$key]["barang"] = $value["supplier_product"];
             $data["suppliers"][$key]["qty"] = $value["qty"];

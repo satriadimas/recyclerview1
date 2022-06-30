@@ -17,8 +17,8 @@ class SupplierController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->search) return ArrayResource::collection(Supplier::where("name", 'like', '%' . $request->search . '%')->orWhere("address", 'like', '%' . $request->search . '%')->orWhere("contact", 'like', '%' . $request->search . '%')->paginate(8));
-        if (!$request->search) return ArrayResource::collection(Supplier::paginate(8));
+        if ($request->search) return ArrayResource::collection(Supplier::where("name", 'like', '%' . $request->search . '%')->orWhere("address", 'like', '%' . $request->search . '%')->orWhere("contact", 'like', '%' . $request->search . '%')->paginate(12));
+        if (!$request->search) return ArrayResource::collection(Supplier::paginate(12));
     }
 
     /**
@@ -70,5 +70,12 @@ class SupplierController extends Controller
         $supplier->delete();
 
         return response()->noContent();
+    }
+
+    public function supplierOptions(Request $request)
+    {
+        $list = Supplier::where("name", 'like', '%' . $request->search . '%')->limit(3)->get(['id as value', 'name as label']);
+
+        return $list;
     }
 }

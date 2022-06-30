@@ -1,13 +1,11 @@
 import { ref } from "vue";
 import axios from "axios";
-import { useRouter } from "vue-router";
 
 export default function useSuppliers() {
     const supplier = ref([]);
     const suppliers = ref([]);
 
     const errors = ref("");
-    const router = useRouter();
 
     const getSuppliers = async () => {
         let response = await axios.get("/api/suppliers");
@@ -19,6 +17,13 @@ export default function useSuppliers() {
         supplier.value = response.data.data;
     };
 
+    const getSupplierOptions = async (search) => {
+        let response = await axios.get(
+            `/api/supplier/options?search=${search ? search : ""}`
+        );
+        return response.data;
+    };
+
     const searchSupplier = async (param) => {
         let response = await axios.get(`/api/suppliers?search=${param.search}`);
         return response.data.data;
@@ -26,30 +31,12 @@ export default function useSuppliers() {
 
     const storeSupplier = async (data) => {
         errors.value = "";
-        try {
-            await axios.post("/api/suppliers", data);
-            router.go();
-        } catch (e) {
-            if (e.response.status === 422) {
-                for (const key in e.response.data.errors) {
-                    errors.value += e.response.data.errors[key][0] + " ";
-                }
-            }
-        }
+        await axios.post("/api/suppliers", data);
     };
 
     const updateSupplier = async (id) => {
         errors.value = "";
-        try {
-            await axios.patch(`/api/suppliers/${id}`, supplier.value);
-            router.go();
-        } catch (e) {
-            if (e.response.status === 422) {
-                for (const key in e.response.data.errors) {
-                    errors.value += e.response.data.errors[key][0] + " ";
-                }
-            }
-        }
+        await axios.patch(`/api/suppliers/${id}`, supplier.value);
     };
 
     const destroySupplier = async (id) => {
@@ -66,5 +53,6 @@ export default function useSuppliers() {
         storeSupplier,
         updateSupplier,
         destroySupplier,
+        getSupplierOptions,
     };
 }

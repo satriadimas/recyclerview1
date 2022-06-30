@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->integer('id_product')->index();
             $table->integer('qty');
-            $table->timestamp('date');
+            $table->date('date');
         });
     }
 
