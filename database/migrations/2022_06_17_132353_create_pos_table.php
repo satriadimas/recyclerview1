@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('pos', function (Blueprint $table) {
             $table->id();
             $table->string('code', 50);
+            $table->integer('num');
             $table->string('terms', 255)->nullable();
         });
     }

@@ -10,5 +10,5 @@ class Po extends Model
     use HasFactory;
     public $timestamps = false;
 
-    protected $fillable = ['code', 'terms'];
+    protected $fillable = ['terms'];
 }

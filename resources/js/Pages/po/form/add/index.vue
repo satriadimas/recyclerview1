@@ -36,7 +36,6 @@ const formInput = ref([{ material: "", qty: "", date: "" }]);
 const supplier_id = ref();
 
 const param = reactive({
-    po_code: uuid(),
     terms: null,
 });
 
@@ -52,18 +51,8 @@ const format = (date) => {
     return `${year}-${month}-${day}`;
 };
 
-function uuid() {
-    const initial = "SDI";
-    return `${initial}-xxxxx`.replace(/[xy]/g, function (c) {
-        var r = (Math.random() * 16) | 0,
-            v = c == "x" ? r : (r & 0x3) | 0x8;
-        return v.toString(16);
-    });
-}
-
 const submitData = async () => {
     const data = {
-        code: param.po_code,
         terms: param.terms,
         data: formInput.value,
     };
@@ -94,7 +83,7 @@ const submitData = async () => {
                             class="space-y-2 mt-4"
                             @submit.prevent="submitData"
                         >
-                            <div class="grid grid-cols-3 gap-2 mt-0">
+                            <div class="grid grid-cols-2 gap-2 mt-0">
                                 <div class="space-y-4 rounded-md shadow-sm">
                                     <div>
                                         <label
@@ -122,25 +111,6 @@ const submitData = async () => {
                                                         ); // check JS block in JSFiddle for implementation
                                                     }
                                                 "
-                                            />
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="space-y-4 rounded-md shadow-sm">
-                                    <div>
-                                        <label
-                                            for="po_code"
-                                            class="block text-sm font-medium text-gray-700"
-                                        >
-                                            PO Code
-                                        </label>
-                                        <div class="mt-1">
-                                            <input
-                                                v-model="param.po_code"
-                                                type="text"
-                                                name="po_code"
-                                                id="po_code"
-                                                class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                                             />
                                         </div>
                                     </div>

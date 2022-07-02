@@ -110,10 +110,7 @@ const goToDetail = async (data) => {
                                                 Supplier Name
                                             </th>
                                             <th scope="col" class="px-6 py-3">
-                                                Date Order
-                                            </th>
-                                            <th scope="col" class="px-6 py-3">
-                                                Remarks
+                                                Terms
                                             </th>
                                             <th scope="col" class="px-6 py-3">
                                                 <span class="sr-only"
@@ -145,16 +142,6 @@ const goToDetail = async (data) => {
                                                 class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
                                             >
                                                 {{ val.suplier_name }}
-                                            </th>
-                                            <th
-                                                scope="row"
-                                                class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
-                                            >
-                                                {{
-                                                    moment(
-                                                        val.order_date
-                                                    ).format("D, MMM YY")
-                                                }}
                                             </th>
                                             <th
                                                 scope="row"

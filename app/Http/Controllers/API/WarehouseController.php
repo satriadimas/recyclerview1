@@ -13,6 +13,7 @@ use App\Models\MaterialIn;
 use App\Models\MaterialOut;
 use App\Models\Po;
 use App\Models\PoList;
+use PDF;
 
 class WarehouseController extends Controller
 {
@@ -101,32 +102,22 @@ class WarehouseController extends Controller
         
     }
 
-    public function getPoDetail($id, Request $request) 
+    public function getPoDetail($id) 
     {
-        if ($request->search) return ArrayResource::collection(
-            Po::select('supplier_goods.name', 'po_lists.qty', 'po_lists.delivery_date', 'supplier_goods.price', 'suppliers.currency')
-                ->join('po_lists', 'po_lists.id_po', '=', 'pos.id')
+        return ArrayResource::collection(
+            PoList::select('supplier_goods.name', 'po_lists.qty', 'po_lists.delivery_date', 'supplier_goods.price', 'suppliers.currency')
                 ->join('supplier_goods', 'po_lists.id_supplier_good', '=', 'supplier_goods.id')
                 ->join('suppliers', 'supplier_goods.supplier_id', '=', 'suppliers.id')
-                ->where("suppliers.name", 'like', '%' . $request->search . '%')
-                ->orWhere("pos.code", 'like', '%' . $request->search . '%')
-                ->where("pos.id", '=', $id)
-                ->get()
-        );
-
-        if (!$request->search) return ArrayResource::collection(
-            Po::select('supplier_goods.name', 'po_lists.qty', 'po_lists.delivery_date', 'supplier_goods.price', 'suppliers.currency')
-                ->join('po_lists', 'po_lists.id_po', '=', 'pos.id')
-                ->join('supplier_goods', 'po_lists.id_supplier_good', '=', 'supplier_goods.id')
-                ->join('suppliers', 'supplier_goods.supplier_id', '=', 'suppliers.id')
-                ->where("pos.id", '=', $id)
+                ->where("po_lists.id_po", '=', $id)
                 ->get()
         );
     }
 
     public function addPo(Request $request)
     {
-        $po = Po::insert(["code"=>$request->code, "terms"=>$request->terms]);
+        $num = Po::latest('num')->value('num');
+        $code = str_pad($num+1, 4, '0', STR_PAD_LEFT);
+        $po = Po::insert(["code"=>'SDI-'.$code, "num"=>$num+1, "terms"=>$request->terms]);
         $id = Po::latest('id')->value('id');
 
         foreach ($request->data as $key => $value) {
@@ -166,5 +157,32 @@ class WarehouseController extends Controller
         else
             return response()->json(error);
         return response()->json(null); 
+    }
+
+    public function generatePDF($id)
+    {
+  
+        $po = Po::select('pos.id', 'pos.code', 'suppliers.name', 'suppliers.address', 'pos.terms', 'suppliers.currency')
+                ->join('po_lists', 'po_lists.id_po', '=', 'pos.id')
+                ->join('supplier_goods', 'po_lists.id_supplier_good', '=', 'supplier_goods.id')
+                ->join('suppliers', 'supplier_goods.supplier_id', '=', 'suppliers.id')
+                ->where('pos.id', $id)
+                ->groupBy('suppliers.id', 'pos.code', 'pos.id')
+                ->get();
+
+        $material = PoList::select('supplier_goods.name', 'po_lists.qty', 'po_lists.delivery_date', 'supplier_goods.price', 'supplier_goods.unit')
+                ->join('supplier_goods', 'po_lists.id_supplier_good', '=', 'supplier_goods.id')
+                ->where("po_lists.id_po", '=', $id)
+                ->get();
+
+        $data = [
+            'date' => date('d/m/y'),
+            'po' => $po,
+            'datas' => $material,
+        ]; 
+
+        // return view('myPDF', ['data' => $data]);
+        $pdf = PDF::loadView('myPDF', ['data' => $data])->setPaper('a4', 'potrait');
+        return $pdf->download('PO-'.$po[0]['code'].'.pdf');
     }
 }

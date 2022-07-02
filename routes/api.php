@@ -44,3 +44,5 @@ Route::get('warehouse/outgoing', [WarehouseController::class, 'getOutgoing']);
 Route::post('warehouse/outgoing/add', [WarehouseController::class, 'addOutgoing']);
 Route::delete('warehouse/incoming/{id}', [WarehouseController::class, 'deleteIncoming']);
 Route::delete('warehouse/outgoing/{id}', [WarehouseController::class, 'deleteOutgoing']);
+
+Route::get('generate-pdf/{id}', [WarehouseController::class, 'generatePDF']);
