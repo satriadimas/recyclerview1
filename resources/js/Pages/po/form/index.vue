@@ -8,7 +8,7 @@ import useToggleModal from "@/API/toggleModel";
 import { reactive, ref, computed, watch } from "vue";
 import moment from "moment";
 
-const { pos, getPos, searchPos, getPoDetail } = useProductions();
+const { pos, getPos, searchPos, getPoDetail, generatePdf } = useProductions();
 
 const { openModal, hasRole } = useToggleModal();
 
@@ -159,11 +159,13 @@ const goToDetail = async (data) => {
                                                 >
                                                     Detail
                                                 </button>
-                                                <button
+                                                <a
+                                                    :href="`/api/generate-pdf/${val.id}`"
+                                                    target="_blank"
                                                     class="mr-2 inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
                                                 >
                                                     Print
-                                                </button>
+                                                </a>
                                             </th>
                                         </tr>
 

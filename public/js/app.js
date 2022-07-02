@@ -24162,7 +24162,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         pos = _useProductions.pos,
         getPos = _useProductions.getPos,
         searchPos = _useProductions.searchPos,
-        getPoDetail = _useProductions.getPoDetail;
+        getPoDetail = _useProductions.getPoDetail,
+        generatePdf = _useProductions.generatePdf;
 
     var _useToggleModal = (0,_API_toggleModel__WEBPACK_IMPORTED_MODULE_6__["default"])(),
         openModal = _useToggleModal.openModal,
@@ -24237,6 +24238,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       getPos: getPos,
       searchPos: searchPos,
       getPoDetail: getPoDetail,
+      generatePdf: generatePdf,
       openModal: openModal,
       hasRole: hasRole,
       params: params,
@@ -29363,13 +29365,7 @@ var _hoisted_20 = {
   "class": "px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
 };
 var _hoisted_21 = ["onClick"];
-
-var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  "class": "mr-2 inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
-}, " Print ", -1
-/* HOISTED */
-);
-
+var _hoisted_22 = ["href"];
 var _hoisted_23 = {
   key: 0
 };
@@ -29429,7 +29425,13 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "class": "mr-2 inline-flex items-center px-4 py-2 bg-green-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
         }, " Detail ", 8
         /* PROPS */
-        , _hoisted_21), _hoisted_22])]);
+        , _hoisted_21), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+          href: "/api/generate-pdf/".concat(val.id),
+          target: "_blank",
+          "class": "mr-2 inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
+        }, " Print ", 8
+        /* PROPS */
+        , _hoisted_22)])]);
       }), 128
       /* KEYED_FRAGMENT */
       )),  false ? (0) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])])])])]), $setup.hasRole('ModalCrudPo') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["ModalCrudPo"], {
@@ -31678,15 +31680,17 @@ function useProductions() {
     };
   }();
 
-  var storePo = /*#__PURE__*/function () {
-    var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4(data) {
+  var generatePdf = /*#__PURE__*/function () {
+    var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4(id) {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
         while (1) {
           switch (_context4.prev = _context4.next) {
             case 0:
-              errors.value = "";
-              _context4.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_2___default().post("/api/po", data);
+              _context4.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/generate-pdf/".concat(id));
+
+            case 2:
+              return _context4.abrupt("return");
 
             case 3:
             case "end":
@@ -31696,26 +31700,22 @@ function useProductions() {
       }, _callee4);
     }));
 
-    return function storePo(_x4) {
+    return function generatePdf(_x4) {
       return _ref4.apply(this, arguments);
     };
   }();
 
-  var searchPos = /*#__PURE__*/function () {
-    var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5(param) {
-      var response;
+  var storePo = /*#__PURE__*/function () {
+    var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5(data) {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
-              _context5.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/po?search=".concat(param.search));
+              errors.value = "";
+              _context5.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default().post("/api/po", data);
 
-            case 2:
-              response = _context5.sent;
-              return _context5.abrupt("return", response.data.data);
-
-            case 4:
+            case 3:
             case "end":
               return _context5.stop();
           }
@@ -31723,24 +31723,24 @@ function useProductions() {
       }, _callee5);
     }));
 
-    return function searchPos(_x5) {
+    return function storePo(_x5) {
       return _ref5.apply(this, arguments);
     };
   }();
 
-  var getProductions = /*#__PURE__*/function () {
-    var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6() {
+  var searchPos = /*#__PURE__*/function () {
+    var _ref6 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee6(param) {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee6$(_context6) {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
               _context6.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/production");
+              return axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/po?search=".concat(param.search));
 
             case 2:
               response = _context6.sent;
-              productions.value = response.data.data;
+              return _context6.abrupt("return", response.data.data);
 
             case 4:
             case "end":
@@ -31750,24 +31750,24 @@ function useProductions() {
       }, _callee6);
     }));
 
-    return function getProductions() {
+    return function searchPos(_x6) {
       return _ref6.apply(this, arguments);
     };
   }();
 
-  var getProduction = /*#__PURE__*/function () {
-    var _ref7 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7(id) {
+  var getProductions = /*#__PURE__*/function () {
+    var _ref7 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee7() {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee7$(_context7) {
         while (1) {
           switch (_context7.prev = _context7.next) {
             case 0:
               _context7.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/production/".concat(id));
+              return axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/production");
 
             case 2:
               response = _context7.sent;
-              production.value = response.data.data;
+              productions.value = response.data.data;
 
             case 4:
             case "end":
@@ -31777,24 +31777,24 @@ function useProductions() {
       }, _callee7);
     }));
 
-    return function getProduction(_x6) {
+    return function getProductions() {
       return _ref7.apply(this, arguments);
     };
   }();
 
-  var searchProduction = /*#__PURE__*/function () {
-    var _ref8 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8(param) {
+  var getProduction = /*#__PURE__*/function () {
+    var _ref8 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee8(id) {
       var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee8$(_context8) {
         while (1) {
           switch (_context8.prev = _context8.next) {
             case 0:
               _context8.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/production?search=".concat(param.search));
+              return axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/production/".concat(id));
 
             case 2:
               response = _context8.sent;
-              return _context8.abrupt("return", response.data.data);
+              production.value = response.data.data;
 
             case 4:
             case "end":
@@ -31804,22 +31804,26 @@ function useProductions() {
       }, _callee8);
     }));
 
-    return function searchProduction(_x7) {
+    return function getProduction(_x7) {
       return _ref8.apply(this, arguments);
     };
   }();
 
-  var storeProduction = /*#__PURE__*/function () {
-    var _ref9 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9(data) {
+  var searchProduction = /*#__PURE__*/function () {
+    var _ref9 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee9(param) {
+      var response;
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee9$(_context9) {
         while (1) {
           switch (_context9.prev = _context9.next) {
             case 0:
-              errors.value = "";
-              _context9.next = 3;
-              return axios__WEBPACK_IMPORTED_MODULE_2___default().post("/api/production", data);
+              _context9.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/production?search=".concat(param.search));
 
-            case 3:
+            case 2:
+              response = _context9.sent;
+              return _context9.abrupt("return", response.data.data);
+
+            case 4:
             case "end":
               return _context9.stop();
           }
@@ -31827,21 +31831,22 @@ function useProductions() {
       }, _callee9);
     }));
 
-    return function storeProduction(_x8) {
+    return function searchProduction(_x8) {
       return _ref9.apply(this, arguments);
     };
   }();
 
-  var destroyProduction = /*#__PURE__*/function () {
-    var _ref10 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10(id) {
+  var storeProduction = /*#__PURE__*/function () {
+    var _ref10 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee10(data) {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee10$(_context10) {
         while (1) {
           switch (_context10.prev = _context10.next) {
             case 0:
-              _context10.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_2___default()["delete"]("/api/production/".concat(id));
+              errors.value = "";
+              _context10.next = 3;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default().post("/api/production", data);
 
-            case 2:
+            case 3:
             case "end":
               return _context10.stop();
           }
@@ -31849,8 +31854,30 @@ function useProductions() {
       }, _callee10);
     }));
 
-    return function destroyProduction(_x9) {
+    return function storeProduction(_x9) {
       return _ref10.apply(this, arguments);
+    };
+  }();
+
+  var destroyProduction = /*#__PURE__*/function () {
+    var _ref11 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee11(id) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee11$(_context11) {
+        while (1) {
+          switch (_context11.prev = _context11.next) {
+            case 0:
+              _context11.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default()["delete"]("/api/production/".concat(id));
+
+            case 2:
+            case "end":
+              return _context11.stop();
+          }
+        }
+      }, _callee11);
+    }));
+
+    return function destroyProduction(_x10) {
+      return _ref11.apply(this, arguments);
     };
   }();
 
@@ -31868,7 +31895,8 @@ function useProductions() {
     getProductions: getProductions,
     searchProduction: searchProduction,
     storeProduction: storeProduction,
-    destroyProduction: destroyProduction
+    destroyProduction: destroyProduction,
+    generatePdf: generatePdf
   };
 }
 

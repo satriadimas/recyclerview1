@@ -27,6 +27,11 @@ export default function useProductions() {
         return response.data.data;
     };
 
+    const generatePdf = async (id) => {
+        await axios.get(`/api/generate-pdf/${id}`);
+        return;
+    };
+
     const storePo = async (data) => {
         errors.value = "";
 
@@ -79,5 +84,6 @@ export default function useProductions() {
         searchProduction,
         storeProduction,
         destroyProduction,
+        generatePdf,
     };
 }
