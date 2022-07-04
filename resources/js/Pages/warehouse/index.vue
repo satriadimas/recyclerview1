@@ -5,7 +5,7 @@
         <template #header>
             <div class="grid grid-cols-2">
                 <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-                    Warehouse || {{ label }}
+                    Gudang || {{ label }}
                 </h2>
                 <div
                     class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex justify-end"

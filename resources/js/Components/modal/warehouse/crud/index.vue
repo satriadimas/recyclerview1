@@ -55,7 +55,7 @@ const submitProduct = async () => {
     >
         <div class="w-8/12 p-6 bg-white rounded-md shadow-xl">
             <div class="flex items-center justify-between">
-                <h3 class="text-2xl">Add Incoming</h3>
+                <h3 class="text-2xl">Add {{ props.type }}</h3>
                 <svg
                     @click="onToggleModal"
                     xmlns="http://www.w3.org/2000/svg"
