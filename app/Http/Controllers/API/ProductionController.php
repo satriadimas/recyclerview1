@@ -116,15 +116,11 @@ class ProductionController extends Controller
             $outsanding = 0;
             for ($j=0; $j < count($month); $j++) { 
                 if ($j > 0) {
-                    if ($outsanding == 0) {
-                        $outsanding = $month[$j-1]["incoming"] - $month[$j-1]["qty_po"];
-                    }
+                    
                     $outsanding = $outsanding + $month[$j]["incoming"] - $month[$j]["qty_po"];
                     $month[$j]["outstanding"] = $outsanding;
 
-                    if ($stock == 0) {
-                        $stock = $month[$j-1]["incoming"] - $month[$j-1]["production"];
-                    }
+                    
                     $stock = $stock + $month[$j]["incoming"] - $month[$j]["production"];
                     $month[$j]["stock"] = $stock;
                 }else {

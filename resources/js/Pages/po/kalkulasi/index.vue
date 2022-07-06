@@ -106,7 +106,7 @@ const getStandarStock = (month, data) => {
         </template>
 
         <div class="py-11">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-end mb-4 gap-4">
                     <div class="w-1/4">
                         <Multiselect
@@ -160,7 +160,7 @@ const getStandarStock = (month, data) => {
                                 <tr>
                                     <th scope="col" class="px-6 py-3">No.</th>
                                     <th scope="col" class="px-6 py-3">
-                                        material
+                                        Barang
                                     </th>
                                     <th scope="col" class="px-6 py-3"></th>
                                     <th

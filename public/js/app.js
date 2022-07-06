@@ -29478,7 +29478,7 @@ var _hoisted_2 = {
   "class": "py-11"
 };
 var _hoisted_3 = {
-  "class": "max-w-7xl mx-auto sm:px-6 lg:px-8"
+  "class": "max-w-8xl mx-auto sm:px-6 lg:px-8"
 };
 var _hoisted_4 = {
   "class": "flex justify-end mb-4 gap-4"
@@ -29516,7 +29516,7 @@ var _hoisted_13 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElement
 var _hoisted_14 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("th", {
   scope: "col",
   "class": "px-6 py-3"
-}, " material ", -1
+}, " Barang ", -1
 /* HOISTED */
 );
 
