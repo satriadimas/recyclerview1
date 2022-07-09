@@ -143,7 +143,7 @@ const getStandarStock = (month, data) => {
                             type="button"
                             class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-2 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                         >
-                            Cari Data
+                            Calculate
                         </button>
                     </div>
                 </div>
@@ -202,6 +202,9 @@ const getStandarStock = (month, data) => {
                                             <li class="text-green-300">
                                                 Rencana Produksi
                                             </li>
+                                            <li class="text-red-400">
+                                                Rencana Po
+                                            </li>
                                             <li class="text-red-300">Qty Po</li>
                                             <li class="text-purple-300">
                                                 Outstanding Po
@@ -224,6 +227,9 @@ const getStandarStock = (month, data) => {
                                             <li class="text-green-300">
                                                 <!-- getProduction(a, val.month) -->
                                                 {{ m.production }}
+                                            </li>
+                                            <li class="text-red-300">
+                                                {{ m.rencana_po }}
                                             </li>
                                             <li class="text-red-300">
                                                 <!-- getPo(a, val.month) -->

@@ -48,6 +48,10 @@ const statusData = (val) => {
     myAlert.status = val ? "Success" : "Failed";
     myAlert.message = "Input Data";
     onToggleModal("myAlert");
+
+    if (params.supplier_id) {
+        getOutgoing(params);
+    }
 };
 </script>
 <template>

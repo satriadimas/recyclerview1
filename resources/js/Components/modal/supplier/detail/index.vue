@@ -2,7 +2,7 @@
 import useSupplierGood from "@/composables/suppliers/detail";
 import useToggleModal from "@/API/toggleModel";
 import { Head, Link, useForm } from "@inertiajs/inertia-vue3";
-import { onMounted, computed, watch, defineEmits } from "vue";
+import { onMounted, computed, watch, defineEmits, ref } from "vue";
 
 const emit = defineEmits();
 
@@ -45,7 +45,7 @@ function uuid() {
     });
 }
 
-const form = useForm({
+const form = ref({
     code: uuid(),
     supplier_id: props.supplier_id,
 });
@@ -56,14 +56,13 @@ if (props.id) {
 
 function onToggleModal() {
     toggleModel();
-    form.reset();
+    // form.reset();
 }
 
 const submitSupplierGood = async () => {
-    console.log(form.price);
     onToggleModal();
     try {
-        if (!props.id) await storeSupplierGood({ ...form });
+        if (!props.id) await storeSupplierGood({ ...form.value });
         if (props.id) await updateSupplierGood(props.id);
 
         emit("status-data", !props.id, true);

@@ -120,7 +120,6 @@ class ProductionController extends Controller
                     $outsanding = $outsanding + $month[$j]["incoming"] - $month[$j]["qty_po"];
                     $month[$j]["outstanding"] = $outsanding;
 
-                    
                     $stock = $stock + $month[$j]["incoming"] - $month[$j]["production"];
                     $month[$j]["stock"] = $stock;
                 }else {
@@ -134,8 +133,10 @@ class ProductionController extends Controller
                 //stock
                 if ($j < 11) {
                     $month[$j]["standar_stock"] = $month[$j+1]["production"];
+                    $month[$j]["rencana_po"] = ($stock * -1) + $month[$j+1]["production"];
                 }else {
                     $month[$j]["standar_stock"] = 0;
+                    $month[$j]["rencana_po"] = 0;
                 }
             }
 
