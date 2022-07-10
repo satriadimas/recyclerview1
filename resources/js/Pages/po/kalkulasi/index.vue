@@ -8,7 +8,7 @@ import moment from "moment";
 
 const { getSupplierOptions } = useSuppliers();
 
-const { pos, getCalPos } = useProductions();
+const { pos, getCalPos, eMrp } = useProductions();
 
 const param = ref({
     supplier_id: null,
@@ -23,75 +23,11 @@ const searchData = async () => {
     await getCalPos(param.value.supplier_id, param.value.date);
 };
 
-const getProduction = (month, data) => {
-    var newArray = data.filter(function (el) {
-        return el.month === month;
+const generatePdf = async () => {
+    const data = ref({
+        data: pos.value,
     });
-    return typeof newArray[0] === "undefined" ? 0 : newArray[0]["production"];
-};
-const getPo = (month, data) => {
-    var newArray = data.filter(function (el) {
-        return el.month === month;
-    });
-    return typeof newArray[0] === "undefined" ? 0 : newArray[0]["qty_po"];
-};
-const getOutstanding = (month, data) => {
-    var now = data.filter(function (el) {
-        return el.month === month;
-    });
-    var before = data.filter(function (el) {
-        return el.month === month - 1;
-    });
-
-    var outstanding =
-        typeof now[0] === "undefined"
-            ? 0
-            : now[0]["qty_po"] - typeof now[0] === "undefined"
-            ? 0
-            : now[0]["incoming"];
-
-    var outstandingBefore =
-        typeof before[0] === "undefined"
-            ? 0
-            : before[0]["qty_po"] - typeof before[0] === "undefined"
-            ? 0
-            : before[0]["incoming"];
-    return parseInt(outstandingBefore) + parseInt(outstanding);
-};
-const getActual = (month, data) => {
-    var newArray = data.filter(function (el) {
-        return el.month === month;
-    });
-    return typeof newArray[0] === "undefined" ? 0 : newArray[0]["incoming"];
-};
-const getStock = (month, data) => {
-    var now = data.filter(function (el) {
-        return el.month === month;
-    });
-    var before = data.filter(function (el) {
-        return el.month === month - 1;
-    });
-    var stock =
-        typeof now[0] === "undefined"
-            ? 0
-            : now[0]["incoming"] - typeof now[0] === "undefined"
-            ? 0
-            : now[0]["production"];
-    // : now[0]["outgoing"];
-    var stockBefore =
-        typeof before[0] === "undefined"
-            ? 0
-            : before[0]["incoming"] - typeof before[0] === "undefined"
-            ? 0
-            : before[0]["production"];
-    // : before[0]["outgoing"];
-    return parseInt(stockBefore) + parseInt(stock);
-};
-const getStandarStock = (month, data) => {
-    var newArray = data.filter(function (el) {
-        return el.month === month + 1;
-    });
-    return typeof newArray[0] === "undefined" ? 0 : newArray[0]["production"];
+    await eMrp(data.value);
 };
 </script>
 
@@ -107,6 +43,16 @@ const getStandarStock = (month, data) => {
 
         <div class="py-11">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
+                <div class="flex justify-end mb-4">
+                    <button
+                        v-if="pos.length"
+                        @click="generatePdf()"
+                        type="button"
+                        class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    >
+                        Print
+                    </button>
+                </div>
                 <div class="flex justify-end mb-4 gap-4">
                     <div class="w-1/4">
                         <Multiselect
@@ -225,33 +171,24 @@ const getStandarStock = (month, data) => {
                                     >
                                         <ul class="text-center">
                                             <li class="text-green-300">
-                                                <!-- getProduction(a, val.month) -->
                                                 {{ m.production }}
                                             </li>
                                             <li class="text-red-300">
                                                 {{ m.rencana_po }}
                                             </li>
                                             <li class="text-red-300">
-                                                <!-- getPo(a, val.month) -->
                                                 {{ m.qty_po }}
                                             </li>
                                             <li class="text-purple-300">
-                                                <!-- getOutstanding(a, val.month) -->
                                                 {{ m.outstanding }}
                                             </li>
                                             <li class="text-yellow-300">
-                                                <!-- getActual(a, val.month) -->
                                                 {{ m.incoming }}
                                             </li>
                                             <li class="text-blue-300">
-                                                <!-- getStock(a, val.month) -->
                                                 {{ m.stock }}
                                             </li>
                                             <li class="text-gray-300">
-                                                <!-- getStandarStock(
-                                                        a,
-                                                        val.month
-                                                    ) -->
                                                 {{ m.standar_stock }}
                                             </li>
                                         </ul>

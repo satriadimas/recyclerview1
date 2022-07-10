@@ -12,6 +12,7 @@ use App\Models\Supplier;
 use App\Models\Production;
 use App\Models\SupplierGood;
 use App\Models\PoCalculation;
+use PDF;
 
 class ProductionController extends Controller
 {
@@ -144,6 +145,13 @@ class ProductionController extends Controller
         }
 
         return $data;
+    }
+
+    public function generatePDF(Request $request)
+    {
+        // return view('e-mrp', ['data' => $request[0]);
+        $pdf = PDF::loadView('e-mrp', ['data' => $request->data])->setPaper('a4', 'landscape');
+        return $pdf->download('E-MRP.pdf');
     }
 }
 

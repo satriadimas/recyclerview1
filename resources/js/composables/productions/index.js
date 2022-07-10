@@ -32,6 +32,11 @@ export default function useProductions() {
         return;
     };
 
+    const eMrp = async (data) => {
+        await axios.post(`/api/mrp-pdf`, { ...data });
+        return;
+    };
+
     const storePo = async (data) => {
         errors.value = "";
 
@@ -74,6 +79,7 @@ export default function useProductions() {
         errors,
         production,
         productions,
+        eMrp,
         getPos,
         getPoDetail,
         storePo,
