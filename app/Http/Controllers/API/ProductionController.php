@@ -147,10 +147,79 @@ class ProductionController extends Controller
         return $data;
     }
 
-    public function generatePDF(Request $request)
+    public function generatePDF($supplier_id, Request $request)
     {
+        $po = PoCalculation::select("supplier_goods.id as id","suppliers.name AS supplier", "supplier_goods.name AS material")
+                            ->join('productions', 'productions.id', '=', 'po_calculations.id_production')
+                            ->join('boms', 'boms.id', '=', 'po_calculations.id_bom')
+                            ->join('supplier_goods', 'supplier_goods.id', '=', 'boms.id_supplier_good')
+                            ->join('suppliers', 'suppliers.id', '=', 'supplier_goods.supplier_id')
+                            ->where("suppliers.id", $supplier_id)->whereYear('date', $request->year)
+                            ->groupBy("supplier_goods.id")
+                            ->get();
+
+        $data = [];
+
+        foreach ($po as $key => $value) {
+
+            $month = [];
+            for ($i=1; $i <= 12; $i++) { 
+                $bomProd = DB::table('boms')
+                            ->selectRaw("ifnull(SUM(boms.qty),0) * ifnull(SUM(productions.qty),0) AS production")
+                            ->join('productions', 'productions.id_product', '=', 'boms.id_product')
+                            ->where('boms.id_supplier_good', $value->id)
+                            ->whereYear('productions.date', $request->year)
+                            ->whereMonth('productions.date', $i)
+                            ->get();
+                
+                $matinout = DB::table('material_ins')
+                            ->selectRaw("ifnull(SUM(material_ins.qty),0) as incoming, ifnull(SUM(material_outs.qty),0) as outgoing")
+                            ->leftJoin('material_outs', 'material_outs.id_materials', '=', 'material_ins.id_materials')
+                            ->where('material_ins.id_materials', $value->id)
+                            ->whereMonth('material_ins.date', $i)
+                            ->get();
+
+                $poList = DB::table('po_lists')
+                            ->selectRaw("IFNULL(SUM(qty), 0) as qty")
+                            ->where('id_supplier_good', $value->id)
+                            ->whereMonth('delivery_date', $i)
+                            ->get();
+                
+                array_push($month, ["month"=>$i, "production"=>$bomProd[0]->production, "qty_po"=>$poList[0]->qty, "incoming"=>$matinout[0]->incoming, "outgoing"=>$matinout[0]->outgoing]);
+            }
+            $stock = 0;
+            $outsanding = 0;
+            for ($j=0; $j < count($month); $j++) { 
+                if ($j > 0) {
+                    
+                    $outsanding = $outsanding + $month[$j]["incoming"] - $month[$j]["qty_po"];
+                    $month[$j]["outstanding"] = $outsanding;
+
+                    $stock = $stock + $month[$j]["incoming"] - $month[$j]["production"];
+                    $month[$j]["stock"] = $stock;
+                }else {
+                    $outsanding = $month[$j]["incoming"] - $month[$j]["qty_po"];
+                    $month[$j]["outstanding"] = $outsanding;
+
+                    $stock = $month[$j]["incoming"] - $month[$j]["production"];
+                    $month[$j]["stock"] = $stock;
+                }
+
+                //stock
+                if ($j < 11) {
+                    $month[$j]["standar_stock"] = $month[$j+1]["production"];
+                    $month[$j]["rencana_po"] = ($stock * -1) + $month[$j+1]["production"];
+                }else {
+                    $month[$j]["standar_stock"] = 0;
+                    $month[$j]["rencana_po"] = 0;
+                }
+            }
+
+            array_push($data, array('id' => $value->id, 'supplier' => $value->supplier, 'material' => $value->material, 'month' => $month ));
+        }
+
         // return view('e-mrp', ['data' => $request[0]);
-        $pdf = PDF::loadView('e-mrp', ['data' => $request->data])->setPaper('a4', 'landscape');
+        $pdf = PDF::loadView('e-mrp', ['data' => $data])->setPaper('a4', 'landscape');
         return $pdf->download('E-MRP.pdf');
     }
 }

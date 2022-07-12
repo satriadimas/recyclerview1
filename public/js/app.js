@@ -24345,18 +24345,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
     var generatePdf = /*#__PURE__*/function () {
       var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
-        var data;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                data = (0,vue__WEBPACK_IMPORTED_MODULE_5__.ref)({
-                  data: pos.value
-                });
-                _context2.next = 3;
-                return eMrp(data.value);
+                _context2.next = 2;
+                return eMrp(param.value.supplier_id, param.value.date);
 
-              case 3:
+              case 2:
               case "end":
                 return _context2.stop();
             }
@@ -31581,12 +31577,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_2__);
 /* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm-bundler.js");
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -31710,13 +31700,13 @@ function useProductions() {
   }();
 
   var eMrp = /*#__PURE__*/function () {
-    var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5(data) {
+    var _ref5 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee5(id, date) {
       return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
               _context5.next = 2;
-              return axios__WEBPACK_IMPORTED_MODULE_2___default().post("/api/mrp-pdf", _objectSpread({}, data));
+              return axios__WEBPACK_IMPORTED_MODULE_2___default().get("/api/mrp-pdf/".concat(id, "?year=").concat(date));
 
             case 2:
               return _context5.abrupt("return");
@@ -31729,7 +31719,7 @@ function useProductions() {
       }, _callee5);
     }));
 
-    return function eMrp(_x5) {
+    return function eMrp(_x5, _x6) {
       return _ref5.apply(this, arguments);
     };
   }();
@@ -31752,7 +31742,7 @@ function useProductions() {
       }, _callee6);
     }));
 
-    return function storePo(_x6) {
+    return function storePo(_x7) {
       return _ref6.apply(this, arguments);
     };
   }();
@@ -31779,7 +31769,7 @@ function useProductions() {
       }, _callee7);
     }));
 
-    return function searchPos(_x7) {
+    return function searchPos(_x8) {
       return _ref7.apply(this, arguments);
     };
   }();
@@ -31833,7 +31823,7 @@ function useProductions() {
       }, _callee9);
     }));
 
-    return function getProduction(_x8) {
+    return function getProduction(_x9) {
       return _ref9.apply(this, arguments);
     };
   }();
@@ -31860,7 +31850,7 @@ function useProductions() {
       }, _callee10);
     }));
 
-    return function searchProduction(_x9) {
+    return function searchProduction(_x10) {
       return _ref10.apply(this, arguments);
     };
   }();
@@ -31883,7 +31873,7 @@ function useProductions() {
       }, _callee11);
     }));
 
-    return function storeProduction(_x10) {
+    return function storeProduction(_x11) {
       return _ref11.apply(this, arguments);
     };
   }();
@@ -31905,7 +31895,7 @@ function useProductions() {
       }, _callee12);
     }));
 
-    return function destroyProduction(_x11) {
+    return function destroyProduction(_x12) {
       return _ref12.apply(this, arguments);
     };
   }();

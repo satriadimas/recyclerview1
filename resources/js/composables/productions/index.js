@@ -32,8 +32,8 @@ export default function useProductions() {
         return;
     };
 
-    const eMrp = async (data) => {
-        await axios.post(`/api/mrp-pdf`, { ...data });
+    const eMrp = async (id, date) => {
+        await axios.get(`/api/mrp-pdf/${id}?year=${date}`);
         return;
     };
 

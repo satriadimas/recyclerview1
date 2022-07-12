@@ -24,10 +24,7 @@ const searchData = async () => {
 };
 
 const generatePdf = async () => {
-    const data = ref({
-        data: pos.value,
-    });
-    await eMrp(data.value);
+    await eMrp(param.value.supplier_id, param.value.date);
 };
 </script>
 
