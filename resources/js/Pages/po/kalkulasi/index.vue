@@ -41,14 +41,14 @@ const generatePdf = async () => {
         <div class="py-11">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8">
                 <div class="flex justify-end mb-4">
-                    <button
+                    <a
                         v-if="pos.length"
-                        @click="generatePdf()"
-                        type="button"
+                        :href="`/api/mrp-pdf/${param.supplier_id}?year=${param.date}`"
+                        target="_blank"
                         class="focus:outline-none text-white bg-blue-700 hover:bg-blue-800 focus:ring-2 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     >
                         Print
-                    </button>
+                    </a>
                 </div>
                 <div class="flex justify-end mb-4 gap-4">
                     <div class="w-1/4">

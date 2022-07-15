@@ -22,6 +22,11 @@
         text-align: left;
         background-color: #fff;
     }
+    ul.no-bullets {
+        list-style-type: none; /* Remove bullets */
+        padding: 0; /* Remove padding */
+        margin: 0; /* Remove margins */ 
+    }
     .row {
         display: -ms-flexbox;
         display: flex;
@@ -162,7 +167,7 @@
                 scope="row"
                 class="px-6 py-4 font-medium text-gray-900 dark:text-white whitespace-nowrap"
             >
-                <ul>
+                <ul class="no-bullets">
                     <li class="text-green-300">
                         Rencana Produksi
                     </li>
@@ -184,7 +189,7 @@
             </td>
             <?php foreach ($val['month'] as $key => $month) { ?>
             <td>
-                <ul class="text-center">
+                <ul class="no-bullets text-center">
                     <li class="text-green-300">
                         <?= $month['production'] ?>
                     </li>

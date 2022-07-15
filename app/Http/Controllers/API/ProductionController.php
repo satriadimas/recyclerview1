@@ -91,7 +91,7 @@ class ProductionController extends Controller
             $month = [];
             for ($i=1; $i <= 12; $i++) { 
                 $bomProd = DB::table('boms')
-                            ->selectRaw("ifnull(SUM(boms.qty),0) * ifnull(SUM(productions.qty),0) AS production")
+                            ->selectRaw("ifnull(SUM(boms.qty * productions.qty),0) AS production")
                             ->join('productions', 'productions.id_product', '=', 'boms.id_product')
                             ->where('boms.id_supplier_good', $value->id)
                             ->whereYear('productions.date', $request->year)
@@ -165,7 +165,7 @@ class ProductionController extends Controller
             $month = [];
             for ($i=1; $i <= 12; $i++) { 
                 $bomProd = DB::table('boms')
-                            ->selectRaw("ifnull(SUM(boms.qty),0) * ifnull(SUM(productions.qty),0) AS production")
+                            ->selectRaw("ifnull(SUM(boms.qty * productions.qty),0) AS production")
                             ->join('productions', 'productions.id_product', '=', 'boms.id_product')
                             ->where('boms.id_supplier_good', $value->id)
                             ->whereYear('productions.date', $request->year)
