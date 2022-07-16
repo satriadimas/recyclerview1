@@ -189,7 +189,7 @@
             </td>
             <?php foreach ($val['month'] as $key => $month) { ?>
             <td>
-                <ul class="no-bullets text-center">
+                <ul class="no-bullets">
                     <li class="text-green-300">
                         <?= $month['production'] ?>
                     </li>
