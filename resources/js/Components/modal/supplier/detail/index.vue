@@ -162,7 +162,7 @@ const submitSupplierGood = async () => {
                             <div class="mt-1">
                                 <input
                                     v-if="props.id"
-                                    type="number"
+                                    type="text"
                                     name="price"
                                     id="price"
                                     class="block mt-1 w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
@@ -170,7 +170,7 @@ const submitSupplierGood = async () => {
                                 />
                                 <input
                                     v-else
-                                    type="number"
+                                    type="text"
                                     name="price"
                                     id="price"
                                     placeholder="Isi harga"

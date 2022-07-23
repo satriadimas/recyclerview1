@@ -20,7 +20,7 @@ class ProductController extends Controller
     public function productOptions(Request $request)
     {
         $data = [];
-        $list = Product::where("name", 'like', '%' . $request->search . '%')->limit(3)->get(['products.id as value', 'products.name as label']);
+        $list = Product::where("name", 'like', '%' . $request->search . '%')->limit(5)->get(['products.id as value', 'products.name as label']);
 
         foreach ($list as $key => $value) {
             $bom = Bom::where('id_product', $value['value'])->get();

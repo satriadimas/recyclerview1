@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SupplierRequest;
 use App\Http\Resources\ArrayResource;
 use App\Models\Supplier;
+use App\Models\SupplierGood;
 use Illuminate\Http\Request;
 
 class SupplierController extends Controller
@@ -67,7 +68,10 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        $supplier->delete();
+        $supplier_id = $supplier->id;
+        if ($supplier->delete()) {
+            SupplierGood::where('supplier_id',$supplier_id)->delete();
+        }
 
         return response()->noContent();
     }
