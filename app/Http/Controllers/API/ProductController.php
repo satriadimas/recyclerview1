@@ -13,7 +13,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->search) return ArrayResource::collection(Product::where("name", 'like', '%' . $request->search . '%')->paginate(12));
+        if ($request->search) return ArrayResource::collection(Product::where("name", 'like', '%' . $request->search . '%')->paginate(20));
         if (!$request->search) return ArrayResource::collection(Product::paginate(12));
     }
     

@@ -163,7 +163,20 @@
             <th>Unit/Price (<?= $data['po'][0]['currency']?>)</th>
             <th>Amount (<?= $data['po'][0]['currency']?>)</th>
         </tr>
-        <?php $num = 1; $total = 0; ?>
+        <?php 
+            $num = 1; $total = 0; 
+            $symbol = '$';
+            
+            if ($data['po'][0]['currency'] == 'USD') {
+                $symbol = '$';
+            } elseif($data['po'][0]['currency'] == 'IDR') {
+                $symbol = 'Rp.';
+            } else {
+                $symbol = '¥';
+            }
+            
+
+        ?>
         <?php foreach ($data['datas'] as $key => $val) { ?>
         <tr>
             <td><?= $num ?></td>
@@ -171,8 +184,8 @@
             <td><?= $val['delivery_date'] ?></td>
             <td><?= $val['qty'] ?></td>
             <td><?= $val['unit'] ?></td>
-            <td><?= number_format($val['price'], 0) ?></td>
-            <td><?= number_format($val['price'] * $val['qty'], 0) ?></td>
+            <td><?= $symbol ?><?= number_format($val['price'], 2, '.', ',') ?></td>
+            <td><?= $symbol ?><?= number_format($val['price'] * $val['qty'], 2, '.', ',') ?></td>
         </tr>
         <?php $num++; ?>
         <?php $total += $val['price'] * $val['qty']; ?>
@@ -183,7 +196,7 @@
                 Total Harga
             </td>
             <td colspan="1">
-                <?= number_format($total,0) ?>
+                <?= $symbol ?><?= number_format($total, 2, '.', ',') ?>
             </td>
         </tr>
         <?php } ?>

@@ -22619,7 +22619,7 @@ __webpack_require__.r(__webpack_exports__);
     var total = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)(0);
     var currency = (0,vue__WEBPACK_IMPORTED_MODULE_2__.ref)();
     props.poList.forEach(function (el) {
-      total.value += parseInt(el.price * el.qty);
+      total.value += el.price * parseInt(el.qty);
       currency.value = el.currency;
     });
 

@@ -24,9 +24,9 @@ class SupplierGoodController extends Controller
                     ->orWhere("supplier_goods.name", 'like', '%' . $request->search . '%')
                     ->orWhere("unit", 'like', '%' . $request->search . '%')
                     ->orWhere("price", 'like', '%' . $request->search . '%');
-        })->paginate(12));
+        })->paginate(20));
         if (!$request->search) return ArrayResource::collection(SupplierGood::select("supplier_goods.id", "code", "supplier_goods.name", "price", "currency", "unit")
-            ->join('suppliers', 'suppliers.id', '=', 'supplier_goods.supplier_id')->where("supplier_id", $request->supplier_id)->paginate(12));
+            ->join('suppliers', 'suppliers.id', '=', 'supplier_goods.supplier_id')->where("supplier_id", $request->supplier_id)->paginate(20));
     }
 
     public function materialOptions(Request $request)

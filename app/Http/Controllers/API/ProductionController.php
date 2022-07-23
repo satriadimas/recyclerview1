@@ -18,8 +18,8 @@ class ProductionController extends Controller
 {
     public function index(Request $request)
     {
-        if ($request->search) return ArrayResource::collection(Production::select("productions.id", "products.name", "productions.qty", "productions.date")->join('products', 'productions.id_product', '=', 'products.id')->where("products.name", 'like', '%' . $request->search . '%')->paginate(12));
-        if (!$request->search) return ArrayResource::collection(Production::select("productions.id", "products.name", "productions.qty", "productions.date")->join('products', 'productions.id_product', '=', 'products.id')->paginate(12));
+        if ($request->search) return ArrayResource::collection(Production::select("productions.id", "products.name", "productions.qty", "productions.date")->join('products', 'productions.id_product', '=', 'products.id')->where("products.name", 'like', '%' . $request->search . '%')->paginate(20));
+        if (!$request->search) return ArrayResource::collection(Production::select("productions.id", "products.name", "productions.qty", "productions.date")->join('products', 'productions.id_product', '=', 'products.id')->paginate(20));
     }
 
     public function store(Request $request)

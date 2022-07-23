@@ -22,7 +22,7 @@ const total = ref(0);
 const currency = ref();
 
 props.poList.forEach((el) => {
-    total.value += parseInt(el.price * el.qty);
+    total.value += el.price * parseInt(el.qty);
     currency.value = el.currency;
 });
 

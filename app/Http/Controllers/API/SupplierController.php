@@ -18,7 +18,7 @@ class SupplierController extends Controller
      */
     public function index(Request $request)
     {
-        if ($request->search) return ArrayResource::collection(Supplier::where("name", 'like', '%' . $request->search . '%')->orWhere("address", 'like', '%' . $request->search . '%')->orWhere("contact", 'like', '%' . $request->search . '%')->paginate(12));
+        if ($request->search) return ArrayResource::collection(Supplier::where("name", 'like', '%' . $request->search . '%')->orWhere("address", 'like', '%' . $request->search . '%')->orWhere("contact", 'like', '%' . $request->search . '%')->paginate(20));
         if (!$request->search) return ArrayResource::collection(Supplier::paginate(12));
     }
 
