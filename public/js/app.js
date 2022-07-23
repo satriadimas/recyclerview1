@@ -24162,7 +24162,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         getPos = _useProductions.getPos,
         searchPos = _useProductions.searchPos,
         getPoDetail = _useProductions.getPoDetail,
-        generatePdf = _useProductions.generatePdf;
+        generatePdf = _useProductions.generatePdf,
+        destroyPo = _useProductions.destroyPo;
 
     var _useToggleModal = (0,_API_toggleModel__WEBPACK_IMPORTED_MODULE_6__["default"])(),
         openModal = _useToggleModal.openModal,
@@ -24205,21 +24206,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       openModal(role);
     };
 
-    var goToDetail = /*#__PURE__*/function () {
-      var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(data) {
+    var deletePo = /*#__PURE__*/function () {
+      var _ref3 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2(id) {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                _context2.next = 2;
-                return getPoDetail(data.id);
+                if (window.confirm("You sure?")) {
+                  _context2.next = 2;
+                  break;
+                }
+
+                return _context2.abrupt("return");
 
               case 2:
-                detail.value = _context2.sent;
-                poSelected.value = data;
-                onToggleModal("ModalDetailPo");
+                _context2.next = 4;
+                return destroyPo(id);
 
-              case 5:
+              case 4:
+                _context2.next = 6;
+                return getPos();
+
+              case 6:
               case "end":
                 return _context2.stop();
             }
@@ -24227,8 +24235,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         }, _callee2);
       }));
 
-      return function goToDetail(_x2) {
+      return function deletePo(_x2) {
         return _ref3.apply(this, arguments);
+      };
+    }();
+
+    var goToDetail = /*#__PURE__*/function () {
+      var _ref4 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3(data) {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.next = 2;
+                return getPoDetail(data.id);
+
+              case 2:
+                detail.value = _context3.sent;
+                poSelected.value = data;
+                onToggleModal("ModalDetailPo");
+
+              case 5:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      return function goToDetail(_x3) {
+        return _ref4.apply(this, arguments);
       };
     }();
 
@@ -24238,12 +24273,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       searchPos: searchPos,
       getPoDetail: getPoDetail,
       generatePdf: generatePdf,
+      destroyPo: destroyPo,
       openModal: openModal,
       hasRole: hasRole,
       params: params,
       detail: detail,
       poSelected: poSelected,
       onToggleModal: onToggleModal,
+      deletePo: deletePo,
       goToDetail: goToDetail,
       BreezeAuthenticatedLayout: _Layouts_Authenticated_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
       Head: _inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_2__.Head,
@@ -29336,18 +29373,19 @@ var _hoisted_20 = {
 };
 var _hoisted_21 = ["onClick"];
 var _hoisted_22 = ["href"];
-var _hoisted_23 = {
+var _hoisted_23 = ["onClick"];
+var _hoisted_24 = {
   key: 0
 };
 
-var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
+var _hoisted_25 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", {
   colspan: "5",
   "class": "px-6 py-4 text-center"
 }, " Belum ada data ", -1
 /* HOISTED */
 );
 
-var _hoisted_25 = [_hoisted_24];
+var _hoisted_26 = [_hoisted_25];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)($setup["Head"], {
     title: "PO"
@@ -29401,7 +29439,14 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           "class": "mr-2 inline-flex items-center px-4 py-2 bg-blue-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
         }, " Print ", 8
         /* PROPS */
-        , _hoisted_22)])]);
+        , _hoisted_22), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+          onClick: function onClick($event) {
+            return $setup.deletePo(val.id);
+          },
+          "class": "mr-2 inline-flex items-center px-4 py-2 bg-red-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
+        }, " Delete ", 8
+        /* PROPS */
+        , _hoisted_23)])]);
       }), 128
       /* KEYED_FRAGMENT */
       )),  false ? (0) : (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("v-if", true)])])])])])])])]), $setup.hasRole('ModalCrudPo') ? ((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createBlock)($setup["ModalCrudPo"], {
@@ -31901,6 +31946,28 @@ function useProductions() {
     };
   }();
 
+  var destroyPo = /*#__PURE__*/function () {
+    var _ref13 = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee13(id) {
+      return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee13$(_context13) {
+        while (1) {
+          switch (_context13.prev = _context13.next) {
+            case 0:
+              _context13.next = 2;
+              return axios__WEBPACK_IMPORTED_MODULE_2___default()["delete"]("/api/po/".concat(id));
+
+            case 2:
+            case "end":
+              return _context13.stop();
+          }
+        }
+      }, _callee13);
+    }));
+
+    return function destroyPo(_x13) {
+      return _ref13.apply(this, arguments);
+    };
+  }();
+
   return {
     pos: pos,
     errors: errors,
@@ -31917,6 +31984,7 @@ function useProductions() {
     searchProduction: searchProduction,
     storeProduction: storeProduction,
     destroyProduction: destroyProduction,
+    destroyPo: destroyPo,
     generatePdf: generatePdf
   };
 }

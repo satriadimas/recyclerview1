@@ -74,6 +74,10 @@ export default function useProductions() {
         await axios.delete(`/api/production/${id}`);
     };
 
+    const destroyPo = async (id) => {
+        await axios.delete(`/api/po/${id}`);
+    };
+
     return {
         pos,
         errors,
@@ -90,6 +94,7 @@ export default function useProductions() {
         searchProduction,
         storeProduction,
         destroyProduction,
+        destroyPo,
         generatePdf,
     };
 }

@@ -8,7 +8,8 @@ import useToggleModal from "@/API/toggleModel";
 import { reactive, ref, computed, watch } from "vue";
 import moment from "moment";
 
-const { pos, getPos, searchPos, getPoDetail, generatePdf } = useProductions();
+const { pos, getPos, searchPos, getPoDetail, generatePdf, destroyPo } =
+    useProductions();
 
 const { openModal, hasRole } = useToggleModal();
 
@@ -28,6 +29,15 @@ watch(params, async (param) => {
 
 const onToggleModal = (role) => {
     openModal(role);
+};
+
+const deletePo = async (id) => {
+    if (!window.confirm("You sure?")) {
+        return;
+    }
+
+    await destroyPo(id);
+    await getPos();
 };
 
 const goToDetail = async (data) => {
@@ -166,6 +176,12 @@ const goToDetail = async (data) => {
                                                 >
                                                     Print
                                                 </a>
+                                                <button
+                                                    @click="deletePo(val.id)"
+                                                    class="mr-2 inline-flex items-center px-4 py-2 bg-red-800 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-gray-700 active:bg-gray-900 focus:outline-none focus:border-gray-900 focus:ring ring-gray-300 disabled:opacity-25 transition ease-in-out duration-150"
+                                                >
+                                                    Delete
+                                                </button>
                                             </th>
                                         </tr>
 

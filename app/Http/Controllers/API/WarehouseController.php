@@ -127,6 +127,15 @@ class WarehouseController extends Controller
         return response()->noContent();
     }
 
+    public function deletePo($id) {
+        $data = Po::find($id);
+        if($data->delete())
+            PoList::where('id_po', $id)->delete();
+        else
+            return response()->json(error);
+        return response()->json(null); 
+    }
+
     public function addIncoming(InOutRequest $request)
     {
         $data = MaterialIn::create($request->validated());

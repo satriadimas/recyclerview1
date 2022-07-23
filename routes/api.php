@@ -35,6 +35,7 @@ Route::apiResource('production', ProductionController::class);
 Route::get('calculation/po/{supplier_id}', [ProductionController::class, 'getCalPo']);
 Route::get('po', [WarehouseController::class, 'getPo']);
 Route::post('po', [WarehouseController::class, 'addPo']);
+Route::delete('po/{id}', [WarehouseController::class, 'deletePo']);
 Route::get('po/detail/{id}', [WarehouseController::class, 'getPoDetail']);
 Route::get('supplier/options', [SupplierController::class, 'supplierOptions']);
 Route::get('warehouse/stock', [WarehouseController::class, 'getStock']);
